@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aplikasi Persediaan & Penjualan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fdf1f7, #e6f0ff);
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+      background: #ffffffd9;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #6a1b9a;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 0;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 15px;
+      background: #fceef8;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .form input {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .form button {
+      background-color: #ab47bc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form button:hover {
+      background-color: #8e24aa;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff5fa;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background-color: #f48fb1;
+      color: white;
+      padding: 12px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fdf2f8;
+    }
+
+    .sales-section h2 {
+      background-color: #81d4fa;
+    }
+
+    .sales-section table {
+      background-color: #e1f5fe;
+    }
+
+    .sales-section td {
+      background-color: #ffffff;
+    }
+
+    .sales-section tr:nth-child(even) td {
+      background-color: #f0fbff;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Header Colors */
+    .produk-section h2 {
+      background-color: #f8bbd0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Aplikasi Persediaan & Penjualan</h1>
+
+    <section class="produk-section">
+      <h2>Tambah Produk</h2>
+      <div class="form">
+        <input type="text" id="productName" placeholder="Nama Produk">
+        <input type="number" id="productPrice" placeholder="Harga">
+        <input type="number" id="productStock" placeholder="Stok">
+        <button onclick="addProduct()">Tambah</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Daftar Produk</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+      </table>
+    </section>
+
+    <section class="sales-section">
+      <h2>Riwayat Penjualan</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Jumlah</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="salesTable"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    let products = [];
+    let sales = [];
+
+    function addProduct() {
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const stock = parseInt(document.getElementById('productStock').value);
+
+      if (name && !isNaN(price) && !isNaN(stock)) {
+        products.push({ name, price, stock });
+        renderProducts();
+        document.getElementById('productName').value = '';
+        document.getElementById('productPrice').value = '';
+        document.getElementById('productStock').value = '';
+      } else {
+        alert('Isi semua kolom dengan benar!');
+      }
+    }
+
+    function renderProducts() {
+      const table = document.getElementById('productTable');
+      table.innerHTML = '';
+      products.forEach((product, index) => {
+        table.innerHTML += `
+          <tr>
+            <td>${product.name}</td>
+            <td>Rp ${product.price.toLocaleString()}</td>
+            <td>${product.stock}</td>
+            <td>
+              <button onclick="sellProduct(${index})" ${product.stock === 0 ? 'disabled' : ''}>Jual</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function sellProduct(index) {
+      if (products[index].stock > 0) {
+        products[index].stock--;
+
+        const existing = sales.find(s => s.name === products[index].name);
+        if (existing) {
+          existing.qty++;
+          existing.total = existing.qty * products[index].price;
+        } else {
+          sales.push({
+            name: products[index].name,
+            qty: 1,
+            total: products[index].price
+          });
+        }
+
+        renderProducts();
+        renderSales();
+      }
+    }
+
+    function renderSales() {
+      const table = document.getElementById('salesTable');
+      table.innerHTML = '';
+      sales.forEach(sale => {
+        table.innerHTML += `
+          <tr>
+            <td>${sale.name}</td>
+            <td>${sale.qty}</td>
+            <td>Rp ${sale.total.toLocaleString()}</td>
+          </tr>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

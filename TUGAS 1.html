@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SSO Undip - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+
+      /* ✅ Background: Pemandangan FEB Undip */
+      background: url('https://feb.undip.ac.id/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-03-at-08.54.09.jpeg') 
+        no-repeat center center fixed;
+      background-size: cover;
+
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-wrapper {
+      background: #ffffffdd;
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      color: #3e1f47;
+    }
+
+    .logo-undip {
+      width: 150px; /* ✅ Logo lebih besar */
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 10px 0 5px;
+      color: #4b0082;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: #6e4c88;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 15px;
+      outline: none;
+      color: #333;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.3s ease;
+    }
+
+    .btn.login {
+      background-color: #7b2cbf;
+      color: white;
+    }
+
+    .btn.login:hover {
+      background-color: #5a189a;
+    }
+
+    .btn.reset {
+      background-color: #e63946;
+      color: white;
+    }
+
+    .btn.reset:hover {
+      background-color: #c91d2d;
+    }
+
+    .link {
+      display: block;
+      margin-top: 15px;
+      color: #6e4c88;
+      font-size: 14px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .link:hover {
+      color: #4b0082;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .login-wrapper {
+        padding: 30px 20px;
+      }
+      .logo-undip {
+        width: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <!-- ✅ Logo Undip PNG Transparan -->
+    <img 
+      src="https://1.bp.blogspot.com/-tThKR0i2DdQ/XrO4fFiulNI/AAAAAAAAB_s/4_UY2xeR3SsE9_5MGBdvsQtBJgNxf9e_wCLcBGAsYHQ/s1600/Logo%2BUndip%2BUniversitas%2BDiponegoro.png" 
+      alt="Logo Undip" 
+      class="logo-undip"
+    />
+
+    <h2>Single Sign On (SSO)</h2>
+    <p>Universitas Diponegoro</p>
+
+    <input type="text" placeholder="NIM / NIP / Username / Email Official Undip" />
+    <button class="btn login">Login</button>
+    <button class="btn reset">Reset Password</button>
+
+    <a href="#" class="link">Daftar Sekarang!</a>
+    <a href="#" class="link">Pendaftaran alumni klik di sini</a>
+  </div>
+
+</body>
+</html>
+
+
